@@ -58,6 +58,9 @@ main {
     margin-bottom: 0.5cm;
 }
 
+
+/* #region ==================== PAGE SIZE */
+
 .page {
     background-color: white;
     box-shadow: 0 1px 5px hsla(0, 0%, 0%, 0.2);
@@ -81,6 +84,9 @@ main {
     /* width: 21cm; */
     /* height: 29.7cm; */
 }
+
+/* #endregion */
+
 
 /* #region ==================== PAGE NUMBER */
 
@@ -153,6 +159,9 @@ p.pre {
     margin-bottom: 0;
 }
 
+
+/* #region ==================== MEDIA: PRINT */
+
 @media print {
     
     @page {
@@ -177,3 +186,5 @@ p.pre {
     } */
     
 }
+
+/* #endregion */
