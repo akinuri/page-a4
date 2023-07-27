@@ -123,7 +123,7 @@ main {
 
 /* #region ==================== WATERMARK */
 
-.watermark {
+.page-watermark {
     position: absolute;
     left: 0;
     top: 0;
@@ -136,7 +136,7 @@ main {
     justify-content: center;
     align-items: center;
 }
-.watermark img {
+.page-watermark img {
     max-width: calc(21cm * 0.9);
     max-height: calc(21cm * 0.5);
     transform: rotate(315deg);
