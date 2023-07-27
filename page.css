@@ -1,8 +1,17 @@
 /* #region ==================== UNITS */
 
 /*
+    inch  = 25.4 mm
+    point = 1/72 * inch = 0.353 mm
+    
     1pt  = 0.352778 mm
     10pt = 3.52778 mm
+    
+            in      mm
+    10 pt   0.14    3.53
+    
+    mac = 72 ppi
+    win = 96 ppi
     
     1pt  = 1.333335 px
     10pt = 13.33335 px
@@ -14,6 +23,10 @@
     297 mm -> 297 / 25.4 = 11.692913385826772 in
     297 mm -> 11.692913385826772 * 72 = 841.8897637795276 px
     
+                in      pt
+    210 mm      8.27    595.28
+    297 mm      11.69   841.89
+    
     chrome
     210 mm = 793.69 px
     297 mm = 1122.52 px
@@ -21,6 +34,9 @@
 */
 
 /* #endregion */
+
+
+/* #region ==================== VARS */
 
 :root {
     --page-padding: 1.5cm;
@@ -31,7 +47,14 @@
         var(--page-a4-height) - (2 * var(--page-padding))
     );
     --page-margin: 0.5cm;
+    --page-number-color: inherit;
+    --page-number-color: hsl(0, 0%, 50%);
+    --page-content-color: hsl(0, 0%, 0%);
+    --screen-bg-color: gainsboro;
 }
+
+/* #endregion */
+
 
 body {
     margin: 0;
@@ -48,18 +71,22 @@ body {
         "Segoe UI Emoji",
         "Segoe UI Symbol",
         "Noto Color Emoji";
-    background-color: gainsboro;
+    background-color: var(--screen-bg-color);
 }
 
 main {
     overflow: auto;
-    padding: 0.5cm;
-    margin-top: 0.5cm;
-    margin-bottom: 0.5cm;
+    padding: 1cm;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--page-margin);
 }
 
 
-/* #region ==================== PAGE SIZE */
+/* #region ==================== SIZE */
 
 .page {
     background-color: white;
@@ -74,48 +101,39 @@ main {
     margin-right: auto;
 }
 
-.page + .page {
-    margin-top: var(--page-margin);
-}
-
 .page-a4 {
     width: var(--page-a4-width);
     height: var(--page-a4-height);
-    /* width: 21cm; */
-    /* height: 29.7cm; */
 }
 
 /* #endregion */
 
 
-/* #region ==================== PAGE NUMBER */
+/* #region ==================== HEADER & FOOTER */
+
+.page :is(.page-header, .page-footer) {
+    display: flex;
+    height: var(--page-padding);
+    position: absolute;
+    left: 0;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.page .page-header {
+    top: 0;
+}
+.page .page-footer {
+    bottom: 0;
+}
+
+/* #endregion */
+
+
+/* #region ==================== NUMBERING */
 
 .page .page-number {
-    position: absolute;
-    top: calc(var(--page-padding) / 2);
-    transform: translateY(-50%) translateX(-50%);
-    left: 50%;
-    opacity: 0.5;
-}
-.page .page-number.bottom {
-    bottom: calc(var(--page-padding) / 2);
-    transform: translateY(-50%);
-}
-.page .page-number.bottom-center {
-    bottom: calc(var(--page-padding) / 2);
-    left: 50%;
-    transform: translateX(-50%);
-}
-.page .page-number.bottom-right {
-    bottom: calc(var(--page-padding) / 2);
-    right: var(--page-padding);
-}
-.page .page-number.bottom-left {
-    bottom: calc(var(--page-padding) / 2);
-    left: var(--page-padding);
-}
-.page .page-number.muted {
-    color: hsla(0, 0%, 0%, 0.5);
+    color: var(--page-number-color);
 }
 
 /* #endregion */
@@ -147,43 +165,44 @@ main {
 /* #endregion */
 
 
+/* #region ==================== CONTENT */
+
 .page-content {
     flex-grow: 1;
-    display: flex;
-    flex-direction: column;
     z-index: 1;
+    overflow: auto;
+    color: var(--page-content-color);
 }
 
-p.pre {
-    white-space: pre-line;
+.page-content > :first-child {
+    margin-top: 0;
+}
+.page-content > :last-child {
     margin-bottom: 0;
 }
+
+/* #endregion */
 
 
 /* #region ==================== MEDIA: PRINT */
 
 @media print {
     
-    @page {
-        size: auto; /* silly bootstrap */
-    }
-    
     body {
         background-color: transparent;
-        min-width: unset !important; /* silly bootstrap */
     }
     main {
-        overflow: unset;
+        padding: 0;
+        gap: 0;
     }
     .page {
         margin: 0;
         box-shadow: none;
         background-color: transparent;
     }
-    /* pre {
-        border: none;
-        overflow: hidden !important;
-    } */
+    .page-content {
+        overflow: hidden;
+    }
     
 }
 
